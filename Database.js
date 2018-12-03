@@ -70,7 +70,7 @@ Database.insertChat = function (data){
 		usernameOne:data.usernameOne,
 		usernameTwo:data.usernameTwo,
 		time:data.time},function(err, response){
-		return response
+		return response;
 	});
 }
 
@@ -126,7 +126,8 @@ Database.insertGroupChat = function (data){
 				db.group_account.insert({
 				groupId: response._id.toString(),
 				groupName:data.groupName,
-				accountId: data.accountId
+				accountId: data.accountId,
+				username: data.username
 			},function(err,response){});
 		
 	});
