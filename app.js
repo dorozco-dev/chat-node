@@ -91,8 +91,8 @@ io.sockets.on('connection', function (socket) {
                 socket.emit('signUpResponse', {success: false, message: "Username is taken"});
             } else {
                 Database.addUser(data, function () {
-                    socket.emit('signUpResponse', {success: true, message: "Your User was created"});
                 });
+				socket.emit('signUpResponse', {success: true, message: "Your User was created"});
             }
         });
     });
