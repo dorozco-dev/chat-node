@@ -5,7 +5,7 @@ var db = dbConst.USE_DB ? mongojs(dbConst.url, ['chat','chat_message']) : null;
 
 Database = {};
 
-exports.addChat = function(data,cb){
+exports.verifyChat = function(data,cb){
 	if(!dbConst.USE_DB)
 		return cb();
 	
@@ -19,20 +19,23 @@ exports.addChat = function(data,cb){
 			if(res)
 				return cb(res)
 			else
-				console.log("insert");
-				cb(insertChat(data));
+				return cb(false);
 		});
 	});
+	
 }	
 
-function insertChat(data){
+exports.addChat = function(data,cb){
+	if(!dbConst.USE_DB)
+		return cb();
+	
 	db.chat.insert({	
 		usernameOne:data.usernameOne,
 		usernameTwo:data.usernameTwo,
 		time:data.time},function(err, response){
-		return response;
+		return cb(response);
 	});
-}
+}	
 
 exports.addChatMessage = function(data,cb){
 	if(!dbConst.USE_DB)

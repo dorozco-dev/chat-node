@@ -17,8 +17,15 @@ io.sockets.on('connection', function (socket) {
 	console.log(socket.id);
 	
 	socket.on('createChat', function (data) {
-		Database.addChat(data, function (res) {
-            socket.emit('chatResponse', res);
+		Database.verifyChat(data, function (res) {
+			
+		if(res)
+			socket.emit('chatResponse', res);
+		else
+			Database.addChat(data, function (res) {
+				console.log(res)
+				socket.emit('chatResponse', res);
+			});
         });
 	});
 	
