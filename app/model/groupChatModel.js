@@ -20,18 +20,14 @@ function insertGroupChat(data){
 	});
 }
 
-exports.AddUserToGroup = function (data){
+exports.AddUserToGroup = function (data, cb){
 	
-	for(var i = 0; i < data.length; i ++){
-		value = data[i];
-		if(value.checked){
-			db.group_account.insert({groupId: value.groupId.toString(),
-			groupName:value.groupName,
-			username:value.username,
-			accountId: value._id},function(err,response){});	
-		}
-
-	}						
+		db.group_account.insert({groupId: data.groupId,
+		groupName:data.groupName,
+		username:data.username,
+		accountId: data._id},function(err,response){
+			return cb(response)
+		});						
 }
 
 exports.addGroupMessage = function(data,cb){

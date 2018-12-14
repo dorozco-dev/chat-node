@@ -24,13 +24,19 @@ exports.findGroupChatMessagesById = function (req, res) {
 io.sockets.on('connection', function (socket) {
 	
 	socket.on('createGroupChat', function (data) {
-		Database.addGroupChat(data, function () {});
-		 io.emit('createGroupChatResponse');
+		Database.addGroupChat(data, function (res) {});
+		socket.emit('createGroupChatResponse', {message: "You create a group"});
 	});
 	
 	socket.on('addUserToGroup', function (data) {
-		Database.AddUserToGroup(data, function () {});
-		socket.emit('addUserToGroupResponse',{message:"Users Added To Group", data: {}});
+		
+		for(var i = 0; i < data.length; i ++){
+			console.log(data[i])
+			Database.AddUserToGroup(data[i], function (res) {
+				console.log(res)
+				socket.broadcast.emit('addUserToGroupResponse',{message:"You Were Added to a Group", data: res});
+			});
+		}
 	});
 	
 	socket.on('sendGroupMessage', function (data) {
